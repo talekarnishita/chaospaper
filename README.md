@@ -41,16 +41,18 @@ flowchart TD
 
 For implementation parameters (embedding delay, cutoff, Schreiber defaults, etc.) and justification of the feature-engineering choices, see [README_TECHNICAL.md](README_TECHNICAL.md).
 
+### Configuration
+- **`chaos_config.m`** defines the 14 sports-metric column names and folder paths used by `phasechaos.m` and `finalenonlinear.m`. By default, paths are relative: `data/raw` (raw CSVs), `data/results` (chaos results), `data/denoised` (denoised CSVs), `data/nonlinear_results` (Keenan etc.). Create these folders or edit `chaos_config.m` to set your own paths.
+
 ## Getting Started
 
 ### 1. Check for Chaos
 - Open MATLAB.
-- Run the code in **`phasechaos.m`**.
-- **Important:** Make sure **`chaos_modified.m`** is in the **same folder** as `phasechaos.m`.
+- Place your team CSV files in **`data/raw`** (or set `cfg.folder_raw` in `chaos_config.m`).
+- Run **`phasechaos.m`**. Ensure **`chaos_modified.m`** and **`chaos_config.m`** are in the same folder.
 
 ### 2. Check for Nonlinearity
-- Open MATLAB.
-- Run the code in **`finalenonlinear.m`** to analyze the nonlinearity in your data/system.
+- Open MATLAB. Run **`finalenonlinear.m`** on denoised data (reads from `data/denoised` by default; requires `chaos_config.m` and `NonlinTst`).
 
 ### 3. Forecasting
 - Open **`runcode.ipynb`** in Jupyter Notebook or any compatible Python environment.

@@ -26,6 +26,9 @@ function output = chaos_modified(y, cutoff, stationarity_test, denoising_algorit
 %   output.K (if chaotic/periodic)    -- the K-statistic
 %   output.permutation_entropy       -- permutation entropy measure
 %   output.denoised_data            -- the data after denoising step (if used)
+%
+%   Methodology-to-code mapping (embedding delay tau, dim, cutoff, sigma, etc.):
+%   see README_TECHNICAL.md §1. Main path uses 0-1 test; FNN only in surrogate (PPS/TS).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Step 0: Set default parameters if none are specified
@@ -49,7 +52,7 @@ if nargin < 7 || isempty(downsampling_method)
 end
 
 if nargin < 8 || isempty(sigma)
-    sigma = 0.5;
+    sigma = 0.5;  % 0-1 test noise (Dawes–Freeland); see README_TECHNICAL.md §1
 end
 
 num_surr = 1000; % number of surrogate time-series to generate
@@ -91,6 +94,7 @@ else
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Step 2: Denoise the data (before checking for stoch/deterministic)
+    % Schreiber: K=1, L=1, r=std(x), repeat=1; then y(10:end-10); README_TECHNICAL.md §1
     if strcmp(denoising_algorithm, 'schreiber')
         y = noiserSchreiber(y);
         if length(y) <= 20
@@ -138,7 +142,7 @@ else
     end
 
     if strcmp(surrogate_algorithm, 'aaft_cpp')
-        % Surrogate test #1
+        % Surrogate test #1 (permutation entropy n=8, tau=1 for surrogate comparison; README_TECHNICAL §1)
         try
             [surr, params] = surrogate(surr_y, num_surr, 'AAFT', 1, 1);
         catch
@@ -215,20 +219,21 @@ else
         
         % 0-1 test for chaos + compute permutation entropy
         if nargin < 2 || isempty(cutoff)
-            % Instead of loading from cutoff_fit.mat, use the linear expression
+            % Data-length-dependent K-statistic cutoff; see README_TECHNICAL.md §1
             cutoff = 0.00005455 * length(y) + 0.422;
             if cutoff > 0.99
                 cutoff = 0.99;
             end
         end
         
+        % Permutation entropy: n=5, tau=1 for output; see README_TECHNICAL.md §1
         output.permutation_entropy = petropy(y, 5, 1);
 
         % Normalize std before 0-1 test
         norm_fac = 0.5 / std(y);
         y = y .* norm_fac;
 
-        K_val = z1test(y, sigma);
+        K_val = z1test(y, sigma);  % 0-1 test; sigma per README_TECHNICAL.md §1
         output.K = K_val;
 
         if K_val > cutoff

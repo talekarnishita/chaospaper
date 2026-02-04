@@ -1,31 +1,29 @@
 %======================================================================
-% Script Name: classify_all_teams.m
+% Script Name: phasechaos.m
 %
 % Description:
-%   This script reads all *.csv files from the specified folder.
-%   For each CSV, it extracts the columns in 'columns_to_process' and
-%   classifies them using 'chaos_modified'. If the data is stationary and
-%   wavelet denoising is used, we store the denoised column in a new table.
-%   Finally, we write that denoised table to a CSV in:
-%       E:\chaospaper\denoisedcsv
+%   Batch driver for chaos classification (README_TECHNICAL.md §2 flowchart).
+%   Reads all *.csv files from the configured raw folder; for each CSV, extracts
+%   the sports-metric columns from chaos_config() and classifies each column
+%   via chaos_modified (stationarity -> Schreiber denoising -> surrogate test
+%   -> 0-1 test). Denoised columns are written to the configured denoised folder.
 %
-%   The classification results include:
-%       - chaos classification
-%       - (if available) K-statistic
-%       - (if available) permutation entropy
+%   Results: chaos classification, K-statistic, permutation entropy, appended to
+%   [team_name, '_results.txt'] in the configured results folder.
 %
-%   Results are appended to a text file named [team_name, '_results.txt'].
+%   Requires: chaos_modified.m and chaos_config.m in the same folder.
 %======================================================================
 
 clear; clc;
 
-% --- 1) Setup the folder and file discovery ---
-folder_path = "E:\chaosgrandfinale\teams2_perspective";
-folder_path1 = 'E:\chaosgrandfinale\correctdenoising';
-csv_files = dir(fullfile(folder_path, '*.csv'));
+% --- 1) Load shared config (columns + paths); see README_TECHNICAL.md ---
+cfg = chaos_config();
+folder_path    = cfg.folder_raw;
+folder_path1   = cfg.folder_results;
+denoised_folder = cfg.folder_denoised;
+columns_to_process = cfg.columns;
 
-% Define the folder where you want to store denoised CSVs
-denoised_folder = 'E:\chaosgrandfinale\denoising2';
+csv_files = dir(fullfile(folder_path, '*.csv'));
 
 % Create output folders if they don't exist
 if ~exist(folder_path1, 'dir')
@@ -34,11 +32,6 @@ end
 if ~exist(denoised_folder, 'dir')
     mkdir(denoised_folder);
 end
-
-% --- 2) Define the columns you want to process ---
-columns_to_process = {"FTGoalsFor", "FTGoalsAgainst", "TeamGS", "TeamGC", "TeamPoints", "MatchWeek", ...
- "TeamFormPts", "WinStreak3", "WinStreak5", "LossStreak3", "LossStreak5", ...
- "TeamGD", "TeamDiffPts", "TeamDiffFormPts"};
 
 % --- 3) Loop through all CSV files in the folder ---
 for i = 1:length(csv_files)

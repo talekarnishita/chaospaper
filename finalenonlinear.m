@@ -1,19 +1,17 @@
-% Location of your CSV files:
-baseFolder = "E:\chaosgrandfinale\denoising2";
+% Nonlinearity tests (Keenan, Ramsey, Terasvirta, Tsay) on denoised data.
+% Uses chaos_config() for column names and paths (README_TECHNICAL.md).
+% Requires: NonlinTst(y) and chaos_config.m.
 
-% Create/output folder for the text files:
-outFolder  = fullfile('E:\chaosgrandfinale','tooscaredResults'); 
-if ~exist(outFolder,'dir')
+cfg = chaos_config();
+baseFolder = cfg.folder_denoised;
+outFolder  = cfg.folder_nonlinear;
+colNames   = cfg.columns;
+
+if ~exist(outFolder, 'dir')
     mkdir(outFolder);
 end
 
-% List the CSV files in the baseFolder:
 fileList = dir(fullfile(baseFolder, '*.csv'));
-
-% The column names for which you want to run tests:
-colNames = { "FTGoalsFor", "FTGoalsAgainst", "TeamGS", "TeamGC", "TeamPoints", "MatchWeek", ...
- "TeamFormPts", "WinStreak3", "WinStreak5", "LossStreak3", "LossStreak5", ...
- "TeamGD", "TeamDiffPts", "TeamDiffFormPts"};
 
 for f = 1:numel(fileList)
 
