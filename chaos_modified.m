@@ -1,5 +1,5 @@
 function output = chaos_modified(y, cutoff, stationarity_test, denoising_algorithm, ...
-    gaussian_transform, surrogate_algorithm, downsampling_method, sigma)
+    gaussian_transform, surrogate_algorithm, downsampling_method, sigma, a9, a10)
 
 % function output = chaos_modified(y,cutoff,stationarity_test,denoising_algorithm,...
 %     gaussian_transform,surrogate_algorithm,downsampling_method,sigma)
@@ -29,7 +29,43 @@ function output = chaos_modified(y, cutoff, stationarity_test, denoising_algorit
 %
 %   Methodology-to-code mapping (embedding delay tau, dim, cutoff, sigma, etc.):
 %   see README_TECHNICAL.md §1. Main path uses 0-1 test; FNN only in surrogate (PPS/TS).
+%
+%   TABLE MODE: chaos_modified(T, column_name, target_team_id, cutoff, stationarity_test, ...)
+%   If first arg is a table, filter for that team, sort by Date, extract column as y.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Optional TABLE MODE: first arg is table -> filter by team, sort by Date, extract series
+% Only use table mode if istable exists (MATLAB); Octave has no istable
+if nargin >= 3 && exist('istable') && istable(y)
+    T = y;
+    column_name = cutoff;
+    target_team_id = stationarity_test;
+    % Remaining args shift: (cutoff, stationarity_test, ..., sigma) = args 4..10
+    if nargin >= 4, cutoff = denoising_algorithm; else, cutoff = []; end
+    if nargin >= 5, stationarity_test = gaussian_transform; else, stationarity_test = []; end
+    if nargin >= 6, denoising_algorithm = surrogate_algorithm; else, denoising_algorithm = []; end
+    if nargin >= 7, gaussian_transform = downsampling_method; else, gaussian_transform = []; end
+    if nargin >= 8, surrogate_algorithm = sigma; else, surrogate_algorithm = []; end
+    if nargin >= 9, downsampling_method = a9; else, downsampling_method = []; end
+    if nargin >= 10, sigma = a10; else, sigma = []; end
+    % --- START OF FILTER BLOCK ---
+    % We isolate ONE team to create a valid time-series trajectory.
+    if ismember('HomeTeam', T.Properties.VariableNames)
+        rows = (T.HomeTeam == target_team_id) | (T.AwayTeam == target_team_id);
+    else
+        rows = (T.Var2 == target_team_id) | (T.Var3 == target_team_id);
+    end
+    T = T(rows, :);
+    if ismember('Date', T.Properties.VariableNames)
+        T = sortrows(T, 'Date');
+    end
+    disp(['Analyzing Team ', num2str(target_team_id), ' | Total Games: ', num2str(height(T))]);
+    if height(T) < 500
+        error('Sample size too small for this team. Pick a different Team ID.');
+    end
+    % --- END OF FILTER BLOCK ---
+    y = T.(column_name);
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Step 0: Set default parameters if none are specified
 
@@ -62,7 +98,13 @@ num_surr = 1000; % number of surrogate time-series to generate
 if nargin > 2 && ~isempty(stationarity_test)
     if strcmp(stationarity_test, 'adf')
         % adf returns 1 if stationary, so h=~adftest => 1 if nonstationary
-        h = ~adftest(y);
+        if exist('adftest')
+            h = ~adftest(y);
+        else
+            % Octave: no Econometrics Toolbox; assume stationary and proceed
+            warning('chaos_modified:no_adftest', 'adftest not found (e.g. Octave); assuming stationary.');
+            h = 0;
+        end
     elseif strcmp(stationarity_test, 'lmc')
         h = lmctest(y);
     elseif strcmp(stationarity_test, 'kpss')
@@ -457,7 +499,7 @@ else
     n=length(x);
 end
 
-if nargin<2 | isempty(K)==1
+if nargin<2 || isempty(K)==1
     K=1;
 else
     % K must be either a scalar or a vector
@@ -474,7 +516,7 @@ else
     end
 end
 
-if nargin<3 | isempty(L)==1
+if nargin<3 || isempty(L)==1
     L=1;
 else
     % L must be either a scalar or a vector
@@ -491,7 +533,7 @@ else
     end
 end
 
-if nargin<4 | isempty(r)==1
+if nargin<4 || isempty(r)==1
     r=std(x);
 else
     % r must be either a scalar or a vector
@@ -504,7 +546,7 @@ else
     end
 end
 
-if nargin<5 | isempty(repeat)==1
+if nargin<5 || isempty(repeat)==1
     repeat=1;
     repeat1=1;
 else
@@ -572,7 +614,7 @@ for i=1:m
     % Calculate the reconstructed time series
     xr(:,i)=[zeros(K(i)*repeat(i),1);Yr(:,K(i)+1);zeros(L(i)*repeat(i),1)];
     
-    if nargin==6 & auto=='auto'
+    if nargin==6 && auto=='auto'
         j=1+K(i)*repeat(i):n-L(i)*repeat(i);
         if repeat(i)==1
             r(i+1)=std(x(j)-xr(j),1);

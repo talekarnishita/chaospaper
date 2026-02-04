@@ -1,0 +1,8 @@
+Test case: Logistic map r=4 (chaotic)
+Source: Synthetic | logistic | n=2000
+Expected: Chaos (LLE ~0.69)
+
+Largest Lyapunov Exponent (LLE): 0.1280
+Result: Chaos (LLE > 0)
+
+Proof: logistic series yields LLE 0.1280 (consistent with chaos).

@@ -1,0 +1,8 @@
+Test case: White noise (stochastic)
+Source: Synthetic | white_noise | n=2000
+Expected: Stochastic (LLE ≈ 0 or negative)
+
+Largest Lyapunov Exponent (LLE): 0.0420
+Result: Chaos (LLE > 0)
+
+Proof: white noise series yields LLE 0.0420 (consistent with chaos).

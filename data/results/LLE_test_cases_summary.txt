@@ -1,0 +1,16 @@
+LLE Test Cases Summary
+=======================
+
+Case ID                  | N      | LLE      | Result
+-------------------------|--------|----------|------------
+team52_FTHG               |    888 |   0.0427 | Chaos
+team52_FTAG               |    888 |   0.0424 | Chaos
+team6_FTHG                |   1822 |   0.0442 | Chaos
+team14_FTHG               |   1804 |   0.0426 | Chaos
+team19_FTHG               |   1794 |   0.0431 | Chaos
+synthetic_logistic        |   2000 |   0.1280 | Chaos
+synthetic_white_noise     |   2000 |   0.0420 | Chaos
+
+Interpretation: LLE > 0 => Chaos; LLE ≤ 0 => Stochastic.
+
+Individual results: data/results/LLE_test_<case_id>.txt

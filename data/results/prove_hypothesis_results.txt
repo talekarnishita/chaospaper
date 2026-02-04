@@ -1,0 +1,28 @@
+Prove Hypothesis — Chaos vs Random Baseline (Team goals)
+============================================================
+
+--- Test case: Team 52 (n=888, test=134) ---
+Chaos RMSE:  1.6122 (dim=5, delay=1, k=5)
+Random RMSE: 1.7887
+Improvement: 9.87%
+
+--- Test case: Team 6 (n=1822, test=274) ---
+Chaos RMSE:  1.6919 (dim=5, delay=1, k=5)
+Random RMSE: 1.6720
+Improvement: -1.19%
+
+--- Test case: Team 14 (n=1804, test=271) ---
+Chaos RMSE:  1.9050 (dim=3, delay=1, k=5)
+Random RMSE: 2.0106
+Improvement: 5.25%
+
+--- Test case: Team 19 (n=1794, test=270) ---
+Chaos RMSE:  1.6214 (dim=5, delay=1, k=5)
+Random RMSE: 1.5988
+Improvement: -1.41%
+
+--- Test case: Team 24 (n=1739, test=261) ---
+Chaos RMSE:  1.8265 (dim=4, delay=1, k=5)
+Random RMSE: 1.8317
+Improvement: 0.28%
+

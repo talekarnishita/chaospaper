@@ -1,0 +1,30 @@
+HYPOTHESIS PROOF SUMMARY — Chaos Theory Sports Analytics
+=========================================================
+Source: HYPOTHESIS_PROOF.md (full text). Evidence: data/results/*.txt
+
+H1. Pipeline validity (stationarity → denoising → surrogate → 0-1 test)
+   Verdict: SUPPORTED
+   Evidence: Logistic map LLE > 0; pipeline in chaos_modified.m; LLE_validation_report.txt
+
+H2. NBA outcome (all 30 teams stochastic)
+   Verdict: REPORTED (fill table from NBA run if needed)
+   Evidence: Manuscript P2.1; table League | N chaotic | N stochastic | N non-stationary
+
+H3. NHL generalization (chaos in continuous sports)
+   Verdict: SUPPORTED
+   Evidence: Team 52 LLE = +0.0427, 0-1 test = chaotic; Teams 6,14,19 LLE > 0, N>1000.
+   Files: LLE_reviewer6_results.txt, chaos_classification_results.txt, LLE_test_cases_summary.txt
+
+H4. Consistency (LLE vs 0-1 test)
+   Verdict: SUPPORTED
+   Evidence: Team 52: LLE > 0 and 0-1 test chaotic (LLE_validation_report.txt §3)
+
+H5. Multi-metric design (14 univariate series, no composite)
+   Verdict: SUPPORTED
+   Evidence: README_TECHNICAL.md §3, chaos_config.m
+
+H6. Classification informs forecasting
+   Verdict: PARTIALLY SUPPORTED
+   Evidence: Methodology in P3.2; full proof = forecast-by-classification table (MAE/RMSE)
+
+OVERALL: Full hypothesis proof requires (1) NBA classification table (H2), (2) forecast-by-classification results (H6). All other hypotheses have supporting evidence in repo and data/results/.

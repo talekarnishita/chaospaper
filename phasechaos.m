@@ -42,6 +42,33 @@ for i = 1:length(csv_files)
     % Read the CSV into a table
     T = readtable(full_csv_path, 'PreserveVariableNames', true);
 
+    % --- START OF FILTER BLOCK ---
+    % We isolate ONE team to create a valid time-series trajectory.
+    target_team_id = 52;
+
+    % Filter for games where Team 52 played Home OR Away
+    if ismember('HomeTeam', T.Properties.VariableNames)
+        % If columns have names
+        rows = (T.HomeTeam == target_team_id) | (T.AwayTeam == target_team_id);
+    else
+        % If columns are Var2, Var3 (Safety check)
+        rows = (T.Var2 == target_team_id) | (T.Var3 == target_team_id);
+    end
+
+    T = T(rows, :);
+
+    % Safety Check: Ensure chronological order for trajectory analysis
+    if ismember('Date', T.Properties.VariableNames)
+        T = sortrows(T, 'Date');
+    end
+
+    disp(['Analyzing Team ', num2str(target_team_id), ' | Total Games: ', num2str(height(T))]);
+
+    if height(T) < 500
+        error('Sample size too small for this team. Pick a different Team ID.');
+    end
+    % --- END OF FILTER BLOCK ---
+
     % Extract a base name for the text file (e.g. remove extension)
     [~, team_name, ~] = fileparts(csv_name);
 

@@ -1,0 +1,9 @@
+# Large raw data (exceed GitHub 100 MB limit; keep locally only)
+data/raw/game_plays.csv
+data/raw/game_plays_players.csv
+data/raw/game_shifts.csv
+data/raw/game_skater_stats.csv
+
+# IDE / tooling
+.cursor/
+_bmad/

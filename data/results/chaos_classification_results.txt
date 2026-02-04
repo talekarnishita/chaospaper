@@ -1,0 +1,11 @@
+Chaos Classification (0-1 test, chaos_modified / run_chaos_octave.m)
+=====================================================================
+Dataset: data/processed/clean_game.csv (NHL, date-sorted)
+Team ID: 52
+Metric: FTHG (home goals)
+Games (Team 52): 888
+
+Result: chaotic
+
+Method: Stationarity (ADF skipped in Octave) -> Schreiber denoising -> surrogate (AAFT) -> 0-1 test.
+Run: octave run_chaos_octave.m

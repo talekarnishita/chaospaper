@@ -1,0 +1,30 @@
+Prove Hypothesis — Validation Report
+============================================================
+
+1. TEST-CASE COVERAGE
+--------------------------------------------------
+   All expected teams present: [52, 6, 14, 19, 24].
+   VALID.
+
+2. RMSE SANITY (positive, finite)
+--------------------------------------------------
+   All RMSE values positive and finite.
+   VALID.
+
+3. IMPROVEMENT FORMULA (improvement_pct = (Random - Chaos) / Random * 100)
+--------------------------------------------------
+   Stored improvement_pct matches formula within 0.02%.
+   VALID.
+
+4. RESULTS SUMMARY
+--------------------------------------------------
+    team_id      n   test rmse_chaos rmse_random   improve%    dim  delay
+         52    888    134     1.6122     1.7887       9.87      5      1
+          6   1822    274     1.6919     1.6720      -1.19      5      1
+         14   1804    271     1.9050     2.0106       5.25      3      1
+         19   1794    270     1.6214     1.5988      -1.41      5      1
+         24   1739    261     1.8265     1.8317       0.28      4      1
+
+5. VALIDATION VERDICT
+--------------------------------------------------
+   PASS: Coverage, RMSE sanity, and improvement formula checks passed.
