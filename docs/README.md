@@ -15,6 +15,7 @@ This folder holds peer-review and hypothesis documentation. Code and results liv
 | **[../REVISION_CHECKLIST.md](../REVISION_CHECKLIST.md)** | Resubmission checklist: P1–P6, rebuttal items, evidence to generate. Tick as done. |
 | **[../DATA_AVAILABILITY.md](../DATA_AVAILABILITY.md)** | Dataset citations (NHL, NBA, Premier League), Data availability statement template, how to cite code. |
 | **[plots.md](plots.md)** | **Plots** — All figures in one doc: pipeline, phase space, forecast comparison, taxonomy, sample size, forecast-by-classification, LLE vs improvement, league summary. |
+| **[plots_rebuttal.md](plots_rebuttal.md)** | **Figures and Rebuttal** — Explains each graph and how it helps rebut the reviewers (R1, R3, R5, R6) and support hypotheses (H3, H4, H6). Use for manuscript figure selection and captions. |
 
 ---
 
