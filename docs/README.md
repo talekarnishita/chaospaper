@@ -14,6 +14,7 @@ This folder holds peer-review and hypothesis documentation. Code and results liv
 | **[../README_TECHNICAL.md](../README_TECHNICAL.md)** | Methodology-to-code table (§1), pipeline flowchart (§2), feature-engineering justification (§3). Use for Methods and rebuttal. |
 | **[../REVISION_CHECKLIST.md](../REVISION_CHECKLIST.md)** | Resubmission checklist: P1–P6, rebuttal items, evidence to generate. Tick as done. |
 | **[../DATA_AVAILABILITY.md](../DATA_AVAILABILITY.md)** | Dataset citations (NHL, NBA, Premier League), Data availability statement template, how to cite code. |
+| **[plots.md](plots.md)** | **Plots** — All figures in one doc: pipeline, phase space, forecast comparison, taxonomy, sample size, forecast-by-classification, LLE vs improvement, league summary. |
 
 ---
 

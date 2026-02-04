@@ -159,7 +159,7 @@ else
             output.denoised_data = y;   % <--- wavelet-denoised data
         else
             % If wdennoise doesn't exist, we skip wavelet denoising
-            warning(['Wavelet denoising function ''wdennoise'' not found. ', ...
+            warning(['Wavelet denoising function ''wdenoise'' not found. ', ...
                      'No wavelet denoising applied.']);
             % We'll leave output.denoised_data empty in this case
         end
@@ -453,8 +453,8 @@ function xr=noiserSchreiber(x,K,L,r,repeat,auto)
 %Syntax: xr=noiserSchreiber(x,K,L,r,repeat,auto)
 %_______________________________________________
 %
-% Geometrical noise reduction for a time series, accordiong to
-% the extremely simple noise reduction method introduced by Screiber.
+% Geometrical noise reduction for a time series, accordiong to the
+% extremely simple noise reduction method introduced by Screiber.
 %
 % xr is the vector/matrix with the cleaned time series.
 % x is the time series.
@@ -792,11 +792,11 @@ end
 % 'RP' - Random permutation
 % 'FT' - Fourier transform (see also: J. Theiler, S. Eubank, A. Longtin,
 % B. Galdrikian, J. Farmer, Testing for nonlinearity in time series: The
-% method of surrogate data, Physica D 58 (1�4) 13 (1992) 77�94).
+% method of surrogate data, Physica D 58 (14) 13 (1992) 7794).
 % 'AAFT' - Amplitude adjusted Fourier transform
 % 'IAAFT1' - Iterative amplitude adjusted Fourier transform with exact
 % distribution (see also: T. Schreiber, A. Schmitz, Improved surrogate data for
-% nonlinearity tests, Phys. Rev. Lett. 77 (4) (1996) 635�638).
+% nonlinearity tests, Phys. Rev. Lett. 77 (4) (1996) 635638).
 % 'IAAFT2' - Iterative amplitude adjusted Fourier transform with exact
 % spectrum
 % 'CPP' - Cyclic phase permutation
@@ -808,7 +808,7 @@ end
 % 'CSS' - Cycle shuffled surrogates. Require that the signal can be
 % separated into distinct cycles. May require adjustment of peak finding
 % parameters.  (see also: J. Theiler, On the evidence for low-dimensional chaos in an epileptic
-% electroencephalogram, Phys. Lett. A 196 (1) (1995) 335�341).
+% electroencephalogram, Phys. Lett. A 196 (1) (1995) 335341).
 %
 %
 % INPUT:
@@ -826,7 +826,7 @@ end
 % if method = 'FT', random phases can be input and output, to preserve for
 % multivariate surrogates for example
 % if method = 'PPS' or 'TS', embedding dimension can be entered beforehand instead of
-% being estimated, if it is to be kept the same for all surrogates
+% being estimated, if it is to be the same for all surrogates
 % if method = 'CSS', minimum peak height and minimum peak distance can be
 % entered to ensure correct peak detection for separation of cycles.
 %
@@ -1230,8 +1230,8 @@ end
 
 
 % The following is code for Breitung's variance ratio test. Code and lookup
-% tables were adapted from the R code written by Matthew Clegg as part
-% of the Engle-Granger Cointegration Models (EGCM) toolbox: 
+% tables were adapted from the R code written by Matthew Clegg as part of
+% the Engle-Granger Cointegration Models (EGCM) toolbox: 
 %https://github.com/cran/egcm/tree/master/man
 
 function [H,rho,pval] = bvr(y, dt,alpha)
@@ -1331,4 +1331,3 @@ rank = tiedrank(y);
 p = rank / (length(rank)+1);
 gauss_dat = norminv( p, 0, 1 );
 end
-

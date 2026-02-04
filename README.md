@@ -61,6 +61,8 @@ For implementation parameters (embedding delay, cutoff, Schreiber defaults, etc.
 | `run_LLE_test_cases.py` | Runs LLE test cases (Team 52 FTHG/FTAG, Teams 6/14/19 FTHG, logistic map, white noise); saves to `data/results/LLE_test_*.txt` and `LLE_test_cases_summary.txt`. |
 | `validate_LLE_results.py` | Validates LLE (logistic map, white noise, Team 52 vs 0-1 test); writes `data/results/LLE_validation_report.txt`. |
 | `validate_prove_hypothesis.py` | Validates prove_hypothesis summary CSV; writes `data/results/prove_hypothesis_validation_report.txt`. |
+| `generate_plots.m` | Octave: phase space (Team 52, Team 6), forecast comparison, taxonomy, sample size, forecast-by-classification, LLE vs improvement, league summary. Output: `fig1_attractor.png` … `fig8_league_summary.png`. |
+| `generate_flowchart.py` | Python: pipeline flowchart (Figure 1 for Reviewer #3). Output: `fig_pipeline.png`. Requires `matplotlib`. |
 | **Documentation** | |
 | [README_TECHNICAL.md](README_TECHNICAL.md) | Methodology-to-code table (§1), pipeline flowchart (§2), feature-engineering justification (§3). |
 | [MANUSCRIPT_REVISION_CONTENT.md](MANUSCRIPT_REVISION_CONTENT.md) | Ready-to-insert manuscript text (P1–P6) for peer review. |
@@ -97,14 +99,18 @@ For implementation parameters (embedding delay, cutoff, Schreiber defaults, etc.
 - **`octave prove_hypothesis.m`** — Runs Chaos vs Random baseline for teams 52, 6, 14, 19, 24; writes `data/results/prove_hypothesis_results.txt` and `prove_hypothesis_summary.csv`.
 - **`python3 validate_prove_hypothesis.py`** — Validates prove_hypothesis summary; writes `data/results/prove_hypothesis_validation_report.txt`.
 
-### 5. Check for Nonlinearity
+### 5. Visualization (for manuscript and review)
+- **`octave generate_plots.m`** — Produces `fig1_attractor.png` (phase space Team 52), `fig2_forecast.png`, `fig3_taxonomy.png`, `fig4_sample_size.png`, `fig5_forecast_by_class.png`, `fig6_attractor_team6.png`, `fig7_LLE_vs_improvement.png`, `fig8_league_summary.png`. Run from project root; requires `data/processed/clean_game.csv` and `data/results/prove_hypothesis_summary.csv`.
+- **`python3 generate_flowchart.py`** — Produces `fig_pipeline.png` (pipeline flowchart for Reviewer #3). Requires `pip install matplotlib`.
+
+### 6. Check for Nonlinearity
 - Open MATLAB. Run **`finalenonlinear.m`** on denoised data (reads from `data/denoised` by default; requires `chaos_config.m` and `NonlinTst`).
 
-### 6. Forecasting
+### 7. Forecasting
 - Open **`runcode.ipynb`** in Jupyter Notebook or any compatible Python environment.
 - Execute the cells to run the forecasting code.
 
-### 7. Plot Chaotic Behavior
+### 8. Plot Chaotic Behavior
 - Open **`compare2.ipynb`** in Jupyter Notebook.
 - Run the cells to generate the chaotic plots.
 
