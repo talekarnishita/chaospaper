@@ -60,7 +60,15 @@ def run_validation():
     if mean_w <= 0:
         lines.append("   VALID: Mean LLE ≤ 0 (stochastic).")
     else:
-        lines.append("   CAVEAT: Mean LLE small positive ({:.4f}). Rosenstein on finite-length noise can yield small positive LLE; stochastic vs chaos should use 0-1 test + surrogates as primary.".format(mean_w))
+        lines.append("   CAVEAT: Mean LLE small positive ({:.4f}). Rosenstein on finite-length".format(mean_w))
+        lines.append("   noise can yield small positive LLE; stochastic vs chaos should use")
+        lines.append("   0-1 test + surrogates as primary.")
+        lines.append("")
+        lines.append("   IMPORTANT: This white noise LLE (~{:.2f}) is of the same order as the".format(mean_w))
+        lines.append("   NHL team LLE values (~0.04). The Rosenstein LLE alone CANNOT distinguish")
+        lines.append("   between NHL team series and white noise. LLE > 0 is necessary but NOT")
+        lines.append("   sufficient evidence for chaos. The primary classifier is the 0-1 test +")
+        lines.append("   surrogate framework; LLE provides supplementary corroborating evidence only.")
     lines.append("")
 
     # --- 3. NHL Team 52: LLE vs 0-1 test ---
@@ -72,7 +80,9 @@ def run_validation():
         lines.append("   Team 52 FTHG: N = {}, LLE = {:.4f}".format(n, lle52))
         lines.append("   0-1 test (chaos_modified / run_chaos_octave.m): Result = chaotic.")
         if lle52 > 0:
-            lines.append("   VALID: LLE > 0 and 0-1 test = chaotic; both indicate chaos.")
+            lines.append("   CONSISTENT: LLE > 0 and 0-1 test = chaotic; both point toward chaos.")
+            lines.append("   However, given the white noise caveat above, LLE alone would not be")
+            lines.append("   sufficient — the classification rests primarily on the 0-1 test.")
         else:
             lines.append("   INCONSISTENT: LLE ≤ 0 but 0-1 test = chaotic; prefer 0-1 test for classification.")
     else:
@@ -91,10 +101,17 @@ def run_validation():
         consistency_ok = True  # skip
 
     lines.append("   • Logistic map (chaotic): Rosenstein LLE > 0 — {}.".format("PASS" if logistic_ok else "FAIL"))
-    lines.append("   • NHL Team 52: LLE > 0 and 0-1 test chaotic — {}.".format("PASS" if consistency_ok else "CHECK"))
-    lines.append("   • White noise: Used for context; finite-sample LLE can be slightly positive.")
+    lines.append("   • NHL Team 52: LLE > 0 and 0-1 test chaotic — {} (consistent).".format("PASS" if consistency_ok else "CHECK"))
+    lines.append("   • White noise: LLE ~0.04 (small positive); demonstrates that LLE > 0")
+    lines.append("     alone is NOT sufficient to confirm chaos on finite samples.")
     lines.append("")
-    lines.append("   Conclusion: Results are consistent with chaos for NHL team series and for the logistic map. Use 0-1 test + surrogate as primary classification; LLE provides supporting evidence (positive exponent) for Reviewer #6.")
+    lines.append("   Conclusion: The 0-1 test + surrogate framework is the primary classifier")
+    lines.append("   for chaos vs stochastic. LLE provides supporting evidence: a positive")
+    lines.append("   exponent is consistent with the chaotic classification from the 0-1 test.")
+    lines.append("   However, because the Rosenstein estimator yields comparable small positive")
+    lines.append("   LLE for both NHL teams and white noise (~0.04), LLE should not be cited")
+    lines.append("   as independent confirmation of chaos. When presenting LLE to reviewers,")
+    lines.append("   frame it as 'consistent with' the 0-1 test result, not 'confirming' chaos.")
     lines.append("")
 
     return "\n".join(lines)

@@ -50,14 +50,9 @@ def run_one_nhl(csv_path, team_id, column, case_name):
         "Largest Lyapunov Exponent (LLE): {:.4f}".format(lle),
         "Result: {}".format(result),
         "",
-        "--- Reviewer #6 (if chaos) ---",
-        "Analysis of the 20-year NHL dataset (Team {}, {}) revealed a positive "
-        "Lyapunov exponent (+{:.2f}), confirming that our chaos-aware framework "
-        "generalizes to continuous sports.".format(team_id, n_str, lle) if lle > 0 else "(N/A)",
-        "",
-        "--- Reviewer #6 (if stochastic) ---",
-        "The extended 20-year analysis confirmed the stochastic nature of the sport, "
-        "consistent with our NBA findings.",
+        "Note: LLE is supporting evidence only. The Rosenstein estimator can yield",
+        "small positive LLE (~0.04) on finite-length stochastic data. Primary",
+        "classification relies on the 0-1 test + surrogate framework.",
     ]
     return lle, n, lines
 
@@ -141,7 +136,11 @@ def main():
         summary_lines.append("{:25} | {:6} | {:8.4f} | {}".format(case_id, n, lle, result))
     summary_lines.extend([
         "",
-        "Interpretation: LLE > 0 => Chaos; LLE ≤ 0 => Stochastic.",
+        "Interpretation: LLE > 0 is consistent with chaos; LLE ≤ 0 is consistent",
+        "with stochastic dynamics. However, the Rosenstein estimator can yield small",
+        "positive LLE (~0.04) on finite-length stochastic data (e.g. white noise).",
+        "LLE is therefore supporting evidence only; the primary classifier is the",
+        "0-1 test + surrogate framework (chaos_modified.m).",
         "",
         "Individual results: data/results/LLE_test_<case_id>.txt",
     ])

@@ -1,9 +1,12 @@
 Largest Lyapunov Exponent (LLE): 0.0427
 
-Result: Chaos (LLE > 0)
+Result: Positive LLE (consistent with chaos; see caveat below)
 
 --- Text for Reviewer #6 (Chaos) ---
-Analysis of the 20-year NHL dataset (Team 52, N = 888 games) revealed a positive Lyapunov exponent (+0.04), confirming that our chaos-aware framework generalizes to continuous sports.
+Analysis of the 20-year NHL dataset (Team 52, N = 888 games) yielded a positive Lyapunov exponent (+0.04), consistent with the chaotic classification obtained from the 0-1 test and surrogate framework. Together, these independent indicators support that our chaos-aware framework generalizes to continuous sports. We note that the Rosenstein LLE alone is not sufficient to confirm chaos on finite-length sports data (see Limitations); the 0-1 test remains the primary classifier.
+
+--- Caveat ---
+The Rosenstein LLE estimator can return small positive values (~0.04) even for white noise on finite samples. NHL team LLE magnitudes are comparable to this baseline. LLE > 0 is therefore necessary but not sufficient evidence for chaos; the primary classification relies on the 0-1 test + surrogate framework.
 
 --- Summary ---
 Team ID: 52  |  Games: 888  |  LLE: 0.0427

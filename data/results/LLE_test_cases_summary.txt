@@ -11,6 +11,10 @@ team19_FTHG               |   1794 |   0.0431 | Chaos
 synthetic_logistic        |   2000 |   0.1280 | Chaos
 synthetic_white_noise     |   2000 |   0.0420 | Chaos
 
-Interpretation: LLE > 0 => Chaos; LLE ≤ 0 => Stochastic.
+Interpretation: LLE > 0 is consistent with chaos; LLE <= 0 is consistent
+with stochastic dynamics. However, the Rosenstein estimator can yield small
+positive LLE (~0.04) on finite-length stochastic data (e.g. white noise).
+LLE is therefore supporting evidence only; the primary classifier is the
+0-1 test + surrogate framework (chaos_modified.m).
 
 Individual results: data/results/LLE_test_<case_id>.txt

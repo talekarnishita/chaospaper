@@ -13,10 +13,10 @@ This document states the manuscript hypotheses (from MANUSCRIPT_REVISION_CONTENT
 
 **Evidence:**
 - **Synthetic chaotic:** Logistic map (r=4) has theoretical LLE ≈ 0.693; our Rosenstein LLE > 0 and 0–1 test would classify as deterministic (chaos). See `data/results/LLE_validation_report.txt`, `LLE_test_synthetic_logistic.txt`.
-- **Synthetic stochastic:** White noise; surrogate test (AAFT + permutation entropy) is designed to classify such series as stochastic when original lies within surrogate distribution. LLE on finite noise can be slightly positive; primary classification is surrogate + 0–1 test. See `LLE_validation_report.txt`.
+- **Synthetic stochastic:** White noise; surrogate test (AAFT + permutation entropy) is designed to classify such series as stochastic when original lies within surrogate distribution. **Important:** The Rosenstein LLE estimator can yield small positive values (~0.04) even for white noise on finite samples; LLE alone cannot distinguish chaos from stochasticity at these magnitudes. The primary classification is surrogate + 0–1 test; LLE is supporting evidence only. See `LLE_validation_report.txt`.
 - **Implementation:** `chaos_modified.m` implements the pipeline; README_TECHNICAL.md §1 maps parameters to code.
 
-**Verdict:** **Supported.** Known chaotic system (logistic map) yields positive LLE; pipeline is implemented and validated on synthetic data. Stochastic distinction relies on surrogate test.
+**Verdict:** **Supported.** Known chaotic system (logistic map) yields positive LLE; pipeline is implemented and validated on synthetic data. Stochastic distinction relies on surrogate test. LLE provides supporting (not standalone) evidence.
 
 ---
 
@@ -35,11 +35,11 @@ This document states the manuscript hypotheses (from MANUSCRIPT_REVISION_CONTENT
 **Claim:** The chaos-aware framework generalizes to continuous (ice-hockey) sports: NHL data can exhibit chaotic dynamics, consistent with a positive Lyapunov exponent and 0–1 test classification as chaotic.
 
 **Evidence:**
-- **Team 52 (FTHG):** 0–1 test = chaotic (`run_chaos_octave.m` → `chaos_classification_results.txt`). LLE = +0.0427 (`LLE_reviewer6_results.txt`). Both indicate chaos.
-- **Teams 6, 14, 19 (N > 1000):** LLE > 0 for FTHG (`LLE_test_cases_summary.txt`). Multiple teams, large N.
-- **Reviewer #6 text:** “Analysis of the 20-year NHL dataset (Team 52, N = 888 games) revealed a positive Lyapunov exponent (+0.04), confirming that our chaos-aware framework generalizes to continuous sports.” See `REVIEWER6_SUMMARY.txt`.
+- **Team 52 (FTHG):** 0–1 test = chaotic (`run_chaos_octave.m` → `chaos_classification_results.txt`). LLE = +0.0427 (`LLE_reviewer6_results.txt`). The 0–1 test classifies Team 52 as chaotic; the positive LLE is consistent with this classification.
+- **Teams 6, 14, 19 (N > 1000):** LLE > 0 for FTHG (`LLE_test_cases_summary.txt`). Multiple teams, large N. Note: LLE magnitudes (~0.04) are comparable to those obtained from white noise with the Rosenstein estimator; LLE alone is not sufficient to confirm chaos. The 0–1 test is the primary classifier.
+- **Reviewer #6 text:** See `REVIEWER6_SUMMARY.txt` — language has been updated to reflect that LLE is consistent with (not standalone confirmation of) chaos, and that the 0–1 test is the primary classifier.
 
-**Verdict:** **Supported.** NHL Team 52 (and others) show positive LLE and 0–1 test = chaotic; evidence saved in `data/results/`.
+**Verdict:** **Supported.** NHL Team 52 (and others) show positive LLE consistent with 0–1 test = chaotic. Evidence is strongest when LLE and 0–1 test agree; LLE alone is supporting evidence due to finite-sample bias in the Rosenstein estimator.
 
 ---
 
@@ -48,8 +48,9 @@ This document states the manuscript hypotheses (from MANUSCRIPT_REVISION_CONTENT
 
 **Evidence:**
 - **Team 52 FTHG:** LLE = 0.0427 > 0; 0–1 test = chaotic. See `LLE_validation_report.txt` §3, `chaos_classification_results.txt`, `LLE_reviewer6_results.txt`.
+- **Caveat:** Since the Rosenstein LLE can be slightly positive even for stochastic data (~0.04 for white noise), agreement between LLE > 0 and 0–1 test = chaotic is necessary but does not independently confirm chaos. The consistency is meaningful primarily as corroborating evidence — the two methods do not contradict each other.
 
-**Verdict:** **Supported.** Agreement for Team 52; no contradiction in current results.
+**Verdict:** **Supported.** Agreement for Team 52; no contradiction in current results. The 0–1 test is the primary classifier; LLE corroborates.
 
 ---
 

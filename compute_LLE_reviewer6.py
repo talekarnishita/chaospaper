@@ -3,6 +3,13 @@
 Compute Largest Lyapunov Exponent (LLE) for NHL Team 52 time series and print
 Reviewer #6 rebuttal text. Uses data/processed/clean_game.csv (Team 52, FTHG),
 chronological. Requires: numpy (pip install numpy). Uses built-in Rosenstein LLE.
+
+NOTE ON INTERPRETATION: The Rosenstein LLE computed here is *supporting* evidence
+only. On finite-length data the Rosenstein estimator can yield small positive LLE
+even for stochastic processes (e.g. white noise ≈ 0.04). Therefore LLE > 0 is
+necessary but NOT sufficient to confirm chaos. The *primary* classifier is the
+0-1 test + surrogate framework in chaos_modified.m; LLE provides supplementary
+evidence of sensitive dependence on initial conditions.
 """
 import csv
 import sys
@@ -160,15 +167,19 @@ def main():
     lines.append("")
 
     if lle > LLE_CHAOS_THRESHOLD:
-        lines.append("Result: Chaos (LLE > 0)")
+        lines.append("Result: Positive LLE (consistent with chaos; see caveat below)")
         lines.append("")
         lines.append("--- Text for Reviewer #6 (Chaos) ---")
         n_str = f"N = {n} games" if n < 1000 else f"N > 1000 games"
         lle_str = f"+{lle:.2f}" if lle >= 0.01 else f"+{lle:.3f}"
         msg = (
             f'Analysis of the 20-year NHL dataset (Team {TARGET_TEAM_ID}, {n_str}) '
-            f'revealed a positive Lyapunov exponent ({lle_str}), confirming that our '
-            'chaos-aware framework generalizes to continuous sports.'
+            f'yielded a positive Lyapunov exponent ({lle_str}), consistent with the '
+            'chaotic classification obtained from the 0-1 test and surrogate framework. '
+            'Together, these independent indicators support that our chaos-aware '
+            'framework generalizes to continuous sports. We note that the Rosenstein '
+            'LLE alone is not sufficient to confirm chaos on finite-length sports data '
+            '(see Limitations); the 0-1 test remains the primary classifier.'
         )
         lines.append(msg)
     else:
@@ -176,11 +187,20 @@ def main():
         lines.append("")
         lines.append("--- Text for Reviewer #6 (Stochastic) ---")
         msg = (
-            "The extended 20-year analysis confirmed the stochastic nature of the sport, "
-            "consistent with our NBA findings."
+            "The extended 20-year analysis yielded a non-positive Lyapunov exponent, "
+            "consistent with the stochastic classification from our pipeline and "
+            "our NBA findings."
         )
         lines.append(msg)
 
+    lines.append("")
+    lines.append("--- Caveat ---")
+    lines.append(
+        "The Rosenstein LLE estimator can return small positive values (~0.04) even "
+        "for white noise on finite samples. NHL team LLE magnitudes are comparable to "
+        "this baseline. LLE > 0 is therefore necessary but not sufficient evidence for "
+        "chaos; the primary classification relies on the 0-1 test + surrogate framework."
+    )
     lines.append("")
     lines.append("--- Summary ---")
     lines.append(f"Team ID: {TARGET_TEAM_ID}  |  Games: {n}  |  LLE: {lle:.4f}")

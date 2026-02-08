@@ -3,8 +3,10 @@
 Script: **`compute_LLE_reviewer6.py`** — computes LLE from a time series (built-in Rosenstein algorithm, numpy only; no nolds) and prints the appropriate Reviewer #6 rebuttal text.
 
 **Interpretation:**
-- **LLE > 0 (positive)** → Chaos → use chaos rebuttal.
-- **LLE ≈ 0 or negative** → Stochastic → use stochastic rebuttal.
+- **LLE > 0 (positive)** → Consistent with chaos → use chaos rebuttal text.
+- **LLE ≈ 0 or negative** → Consistent with stochastic → use stochastic rebuttal text.
+
+**Important caveat:** The Rosenstein LLE estimator can yield small positive values (~0.04) even for white noise on finite samples. NHL team LLE magnitudes are comparable to this stochastic baseline. Therefore LLE > 0 is **necessary but not sufficient** to confirm chaos. The **primary classifier** is the 0-1 test + surrogate framework (`chaos_modified.m`); LLE provides supplementary corroborating evidence only.
 
 ---
 
@@ -75,10 +77,10 @@ print("LLE:", lle)   # Often near 0 or negative
 
 ## Reviewer #6 text (reference)
 
-**If LLE > 0 (Chaos):**
-> "Analysis of the 20-year NHL dataset (Team 52, N > 1000 games) revealed a positive Lyapunov exponent (+0.0X), confirming that our chaos-aware framework generalizes to continuous sports."
+**If LLE > 0 (consistent with chaos):**
+> "Analysis of the 20-year NHL dataset (Team 52, N = 888 games) yielded a positive Lyapunov exponent (+0.04), consistent with the chaotic classification obtained from the 0-1 test and surrogate framework. Together, these independent indicators support that our chaos-aware framework generalizes to continuous sports. We note that the Rosenstein LLE alone is not sufficient to confirm chaos on finite-length sports data (see Limitations); the 0-1 test remains the primary classifier."
 
-**If LLE ≈ 0 or negative (Stochastic):**
-> "The extended 20-year analysis confirmed the stochastic nature of the sport, consistent with our NBA findings."
+**If LLE ≈ 0 or negative (consistent with stochastic):**
+> "The extended 20-year analysis yielded a non-positive Lyapunov exponent, consistent with the stochastic classification from our pipeline and our NBA findings."
 
-The script prints the exact sentence with the computed LLE value and sample size.
+The script prints the exact sentence with the computed LLE value and sample size. See `data/results/REVIEWER6_SUMMARY.txt` for the latest recommended text.

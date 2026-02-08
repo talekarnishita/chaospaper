@@ -3,10 +3,10 @@ Source: NHL clean_game.csv | Team 19 | FTHG
 Games: 1794
 
 Largest Lyapunov Exponent (LLE): 0.0431
-Result: Chaos (LLE > 0)
+Result: Positive LLE (consistent with chaos; see caveat)
 
---- Reviewer #6 (if chaos) ---
-Analysis of the 20-year NHL dataset (Team 19, N > 1000 games) revealed a positive Lyapunov exponent (+0.04), confirming that our chaos-aware framework generalizes to continuous sports.
+--- Note ---
+Analysis of the 20-year NHL dataset (Team 19, N > 1000 games) yielded a positive Lyapunov exponent (+0.04), consistent with chaotic dynamics. Note: LLE is supporting evidence only; the primary classifier is the 0-1 test + surrogate framework.
 
---- Reviewer #6 (if stochastic) ---
-The extended 20-year analysis confirmed the stochastic nature of the sport, consistent with our NBA findings.
+--- If stochastic ---
+The extended 20-year analysis yielded a non-positive Lyapunov exponent, consistent with the stochastic classification from our pipeline and our NBA findings.
